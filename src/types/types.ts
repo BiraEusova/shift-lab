@@ -4,7 +4,7 @@ export interface Response {
 }
 
 export interface OtpResponse extends Response{
-    retryDelay:	number // Время запроса повторного отп кода в мс
+    retryDelay:	number
 }
 
 export interface SignInResponse extends Response{

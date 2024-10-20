@@ -26,27 +26,6 @@ p {
 
 }
 
-button {
-  border-radius: 6px;
-  font-family: inherit;
-  font-size: 14px;
-  border: 1px solid transparent;
-  padding: 12px;
-  margin: 16px 6px;
-  background-color: #4287f5;
-  cursor: pointer;
-  color: #f9f9f9;
-  font-weight: 500;
-}
-
-button:hover {
-  background-color: #3d7de3;
-}
-
-button:focus {
-  box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.20);
-}
-
 form {
   width: 230px;
   height: fit-content;
@@ -99,23 +78,5 @@ input:focus {
   font-size: 12px;
   color: red;
   margin: 0;
-}
-
-.resend-otp-button,
-.resend-otp-button:focus,
-.resend-otp-button:hover {
-  border: none;
-  font-family: inherit;
-  font-size: 14px;
-  padding: 12px;
-  margin: 4px 6px 4px 6px;
-  background-color: transparent;
-  cursor: pointer;
-  color: #4287f5;
-  box-shadow: none;
-}
-
-.resend-otp-button:disabled {
-  color: #C4C4C4;
 }
 

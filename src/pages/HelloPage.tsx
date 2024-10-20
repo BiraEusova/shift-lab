@@ -1,6 +1,7 @@
 import welcomeImg from "../assets/welcome.svg"
 import {useAppDispatch } from "../store/hook.ts";
 import {authSlice} from "../store/authSlice.ts";
+import Button from "../components/Button/Button.tsx";
 
 const HelloPage = () => {
 
@@ -13,7 +14,7 @@ const HelloPage = () => {
         <div style={{width:'50%', height: 'fit-content'}}>
             <img style={{width: '100%'}} src={welcomeImg} />
             <p>Привет, авторизованный пользователь!</p>
-            <button onClick={onClickHandler}>Пройти авторизацию снова!</button>
+            <Button onClick={onClickHandler}>Пройти авторизацию снова!</Button>
         </div>
     );
 }

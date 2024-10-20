@@ -9,10 +9,8 @@ export const api = axios.create({
 api.interceptors.request.use(config => {
     //TODO: а ключ выносится в константы?
     const token = localStorage.getItem('token');
-
     if (token) {
         config.headers.set('Authorization', `Bearer ${token}`);
     }
-
     return config;
 })

@@ -9,26 +9,27 @@ const AuthPage = () => {
 
     const [phone, setPhone] = useState('');
     const dispatch = useAppDispatch();
-    const {loading, error, token, userData} = useAppSelector(state => state.auth);
-
-    const onSubmitPhone = async (phone: string) => {
-        await dispatch(createOTPActionCreator(phone));
-        setPhone(phone);
-    }
+    const {token, retryDelay} = useAppSelector(state => state.auth);
 
     const onSubmitOtp = async (otp: number) => {
         await dispatch(signInActionCreator({phoneNumber: phone, otp: otp}));
         if (token) { dispatch(getSessionActionCreator(token));}
     }
 
-    const resendOTP = async () => {
-        await dispatch(createOTPActionCreator(phone));
+    const sendOTP = async (newPhone?: string) => {
+        console.log(newPhone)
+        if (newPhone) {
+            setPhone(newPhone);
+        }
+        await dispatch(createOTPActionCreator(newPhone ?? phone));
     };
 
+    // Изначально я сделала одну форму, но она была не читабельная,
+    // поэтому я разнесла ее на две.
     return (
         <>
-            {!phone && <PhoneForm onSubmitPhone={onSubmitPhone}/>}
-            {phone && <OtpForm onSubmitOtp={onSubmitOtp} resendOTP={resendOTP}/>}
+            {!phone && <PhoneForm onSubmitPhone={sendOTP}/>}
+            {phone && <OtpForm onSubmitOtp={onSubmitOtp} resendOTP={sendOTP} retryDelay={retryDelay}/>}
         </>
     );
 }

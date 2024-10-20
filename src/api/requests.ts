@@ -12,7 +12,7 @@ export const signIn = async (signInData: SignInDto) => {
     return response.data;
 }
 
-export const getSession = async (token: string) => {
+export const getSession = async () => {
     const response = await api.get<SessionResponse, AxiosResponse<SessionResponse>>(`/users/session`);
     return response.data;
 }

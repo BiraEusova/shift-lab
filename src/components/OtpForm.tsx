@@ -1,15 +1,15 @@
 import {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
-import { Flex, Input, Typography } from 'antd';
-import {OTPProps} from "antd/es/input/OTP";
+import Button from "./Button/Button.tsx";
 
 const OtpForm = (props: {
     onSubmitOtp: (otp: number) => void,
-    resendOTP: () => void
+    resendOTP: () => void,
+    retryDelay: number
 }) => {
 
     const {register, handleSubmit, reset, formState: {errors}} = useForm<{ otp: number }>();
-    const [countdown, setCountdown] = useState<number>(40);
+    const [countdown, setCountdown] = useState<number>(Math.round(props.retryDelay / 1000));
     const [showResendButton, setShowResendButton] = useState<boolean>(false);
 
     const onSubmit = (data: { otp: number }) => {
@@ -19,7 +19,7 @@ const OtpForm = (props: {
 
     const handleResendOTP = async (formValues) => {
         props.resendOTP()
-        setCountdown(40);
+        setCountdown(Math.round(props.retryDelay / 1000));
         setShowResendButton(false);
         reset();
     };
@@ -44,10 +44,9 @@ const OtpForm = (props: {
         }
     }, [countdown]);
 
-
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <label htmlFor="otp">Введите OTP-код:</label>
+            <label htmlFor="otp">Введите код:</label>
             <input
                 className={errors.otp ? "invalid-input" : ""}
                 type="number"
@@ -62,15 +61,15 @@ const OtpForm = (props: {
                 )}
             </div>
 
-            <button
-                className={"resend-otp-button"}
-                disabled={!showResendButton}
+            <Button type="submit" variant="primary">Подтвердить</Button>
+            <Button
                 type="button"
-                onClick={handleResendOTP}>
+                variant="secondary"
+                disabled={!showResendButton}
+                onClick={handleResendOTP}
+            >
                 {"Отправить код повторно"}{!showResendButton && ` через ${countdown}с`}
-            </button>
-
-            <button type="submit">Подтвердить</button>
+            </Button>
         </form>
     );
 };

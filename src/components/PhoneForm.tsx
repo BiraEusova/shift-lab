@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import Button from "./Button/Button.tsx";
 
 const PhoneForm = (props: {onSubmitPhone: (phone: string) => void }) => {
 
@@ -28,7 +29,7 @@ const PhoneForm = (props: {onSubmitPhone: (phone: string) => void }) => {
             <div className={"input-error-message"}>
                 {errors.phone?.type === 'required' && <p>Поле является обязательным</p>}
             </div>
-            <button type="submit">Получить код</button>
+            <Button type="submit" variant="primary">Получить код</Button>
         </form>
     );
 };

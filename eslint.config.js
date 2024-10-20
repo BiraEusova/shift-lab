@@ -1,28 +1,69 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
+import pluginJS from "@eslint/js";
+import globals from "globals";
+import pluginTS from "typescript-eslint";
+import pluginReact from "eslint-plugin-react";
+import pluginReactHooks from "eslint-plugin-react-hooks";
+import pluginReactRefresh from "eslint-plugin-react-refresh";
+import pluginPrettier from "eslint-plugin-prettier";
+import configPrettier from "eslint-config-prettier";
 
-export default tseslint.config(
-  { ignores: ['dist'] },
-  {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ['**/*.{ts,tsx}'],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+export default pluginTS.config(
+    {
+        plugins: {
+            "@typescript-eslint": pluginTS.plugin,
+            react: pluginReact,
+            "react-hooks": pluginReactHooks,
+            "react-refresh": pluginReactRefresh,
+            prettier: pluginPrettier
+        }
     },
-    plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
+    {
+        ignores: ["node_modules", "dist"]
     },
-    rules: {
-      ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+    pluginJS.configs.recommended,
+    ...pluginTS.configs.recommended,
+    pluginReact.configs.flat.recommended,
+    {
+        languageOptions: {
+            ...pluginReact.configs.flat.recommended.languageOptions,
+            globals: globals.browser,
+            parser: pluginTS.parser,
+            parserOptions: {
+                project: ["tsconfig.json"]
+            }
+        }
+
     },
-  },
+    {
+        files: ["**/*.{ts, tsx, mjs}"]
+    },
+    {
+        settings: {
+            react: {
+                version: "detect"
+            }
+        }
+    },
+    {
+        rules: {
+            ...configPrettier.rules,
+            "react/jsx-uses-react": "off",
+            "react/react-in-jsx-scope": "off",
+            "sort-imports": [
+                "warn",
+                {
+                    ignoreCase: false,
+                    ignoreDeclarationSort: false,
+                    ignoreMemberSort: false,
+                    memberSyntaxSortOrder: [
+                        "none",
+                        "all",
+                        "multiple",
+                        "single"
+                    ],
+                    allowSeparatedGroups: false
+                }
+            ]
+        }
+    }
 )
