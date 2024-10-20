@@ -1,20 +1,16 @@
 import {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 
-interface FormValues {
-    otp: number;
-}
-
 const OtpForm = (props: {
     onSubmitOtp: (otp: number) => void,
     resendOTP: (phone: string) => void
 }) => {
 
-    const {register, handleSubmit, reset, formState: {errors}} = useForm<FormValues>();
+    const {register, handleSubmit, reset, formState: {errors}} = useForm<{ otp: number }>();
     const [countdown, setCountdown] = useState<number>(40);
     const [showResendButton, setShowResendButton] = useState<boolean>(false);
 
-    const onSubmit = (data: FormValues) => {
+    const onSubmit = (data: { otp: number }) => {
         props.onSubmitOtp(data.otp);
         reset();
     };
@@ -49,7 +45,7 @@ const OtpForm = (props: {
         <form onSubmit={handleSubmit(onSubmit)}>
             <label htmlFor="otp">Введите OTP-код:</label>
             <input
-                type="text"
+                type="number"
                 id="otp"
                 {...register('otp', {required: true, minLength: 6, maxLength: 6, pattern: /^\d+$/})}
             />
@@ -58,7 +54,6 @@ const OtpForm = (props: {
                 || errors.otp?.type === 'required') && (
                 <div>Код должен состоять из 6 цифр</div>
             )}
-            {/*{errors.otp?.type === 'pattern' && <div>OTP-код должен состоять только из цифр.</div>}*/}
             {!showResendButton && <p>Отправить код повоторно через {countdown}с</p>}
             {showResendButton && (
                 <button type="button" onClick={handleResendOTP}>

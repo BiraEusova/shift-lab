@@ -1,7 +1,5 @@
-import {useForm} from "react-hook-form";
 import {useEffect, useState} from "react";
-import {createOtpAction} from "../storere/actions/userAuthActionCreator.ts";
-import {useAppDispatch} from "../storere/hook.ts";
+import {useAppDispatch} from "../store/hook.ts";
 import PhoneForm from "../components/PhoneForm.tsx";
 import {createOTPActionCreator, getSessionActionCreator, signInActionCreator} from "../store/actions.ts";
 import {useAppSelector} from "../store/hook.ts";

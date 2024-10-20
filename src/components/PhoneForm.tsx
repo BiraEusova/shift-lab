@@ -1,15 +1,17 @@
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
-interface FormValues {
-    phone: string
-}
 const PhoneForm = (props: {onSubmitPhone: (phone: string) => void }) => {
 
-    const {register, handleSubmit, reset, formState: {errors}} = useForm<FormValues>();
+    const {register, setValue, handleSubmit, reset, formState: {errors}} = useForm<{ phone: string }>( );
 
-    const onSubmit = (data: FormValues) => {
+    const onSubmit = (data: { phone: string }) => {
         props.onSubmitPhone(data.phone);
         reset();
+    }
+
+    const onChangeValidate = (e) => {
+        const validateVal = e.target.value.replace(/[^0-9]/g, '');
+        setValue('phone',  validateVal);
     }
 
     return (
@@ -18,10 +20,10 @@ const PhoneForm = (props: {onSubmitPhone: (phone: string) => void }) => {
             <input
                 type="tel"
                 id="phone-number"
-                {...register('phone', {required: true, pattern: /^\d+$/})}
+                onInput={onChangeValidate}
+                {...register('phone', { required: true })}
             />
-            {errors.phone?.type === 'required' && <div>Пожалуйста, введите номер телефона.</div>}
-            {errors.phone?.type === 'pattern' && <div>Пожалуйста, введите только цифры.</div>}
+            {errors.phone?.type === 'required' && <div>Поле является обязательным</div>}
             <button type="submit">Получить код</button>
         </form>
     );
