@@ -27,10 +27,7 @@ export default pluginTS.config(
         languageOptions: {
             ...pluginReact.configs.flat.recommended.languageOptions,
             globals: globals.browser,
-            parser: pluginTS.parser,
-            parserOptions: {
-                project: ["tsconfig.json"]
-            }
+            parser: pluginTS.parser
         }
 
     },
