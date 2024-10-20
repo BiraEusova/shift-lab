@@ -10,8 +10,8 @@ const HelloPage = () => {
     }
 
     return (
-        <div style={{height: '100%', width: '100%'}}>
-            <img style={{height: '50%'}} src={welcomeImg} />
+        <div style={{width:'50%', height: 'fit-content'}}>
+            <img style={{width: '100%'}} src={welcomeImg} />
             <p>Привет, авторизованный пользователь!</p>
             <button onClick={onClickHandler}>Пройти авторизацию снова!</button>
         </div>

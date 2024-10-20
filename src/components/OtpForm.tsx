@@ -1,9 +1,11 @@
 import {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
+import { Flex, Input, Typography } from 'antd';
+import {OTPProps} from "antd/es/input/OTP";
 
 const OtpForm = (props: {
     onSubmitOtp: (otp: number) => void,
-    resendOTP: (phone: string) => void
+    resendOTP: () => void
 }) => {
 
     const {register, handleSubmit, reset, formState: {errors}} = useForm<{ otp: number }>();
@@ -16,9 +18,10 @@ const OtpForm = (props: {
     };
 
     const handleResendOTP = async (formValues) => {
-        props.resendOTP(formValues.otp)
+        props.resendOTP()
         setCountdown(40);
         setShowResendButton(false);
+        reset();
     };
 
     useEffect(() => {
@@ -41,25 +44,32 @@ const OtpForm = (props: {
         }
     }, [countdown]);
 
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <label htmlFor="otp">Введите OTP-код:</label>
             <input
+                className={errors.otp ? "invalid-input" : ""}
                 type="number"
                 id="otp"
                 {...register('otp', {required: true, minLength: 6, maxLength: 6, pattern: /^\d+$/})}
             />
-            {(errors.otp?.type === 'minLength'
-                || errors.otp?.type === 'maxLength'
-                || errors.otp?.type === 'required') && (
-                <div>Код должен состоять из 6 цифр</div>
-            )}
-            {!showResendButton && <p>Отправить код повоторно через {countdown}с</p>}
-            {showResendButton && (
-                <button type="button" onClick={handleResendOTP}>
-                    Отправить код повторно
-                </button>
-            )}
+            <div className={"input-error-message"}>
+                {(errors.otp?.type === 'minLength'
+                    || errors.otp?.type === 'maxLength'
+                    || errors.otp?.type === 'required') && (
+                    <p>Код должен состоять из 6 цифр</p>
+                )}
+            </div>
+
+            <button
+                className={"resend-otp-button"}
+                disabled={!showResendButton}
+                type="button"
+                onClick={handleResendOTP}>
+                {"Отправить код повторно"}{!showResendButton && ` через ${countdown}с`}
+            </button>
+
             <button type="submit">Подтвердить</button>
         </form>
     );

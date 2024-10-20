@@ -21,7 +21,7 @@ const AuthPage = () => {
         if (token) { dispatch(getSessionActionCreator(token));}
     }
 
-    const resendOTP = async (phone: string) => {
+    const resendOTP = async () => {
         await dispatch(createOTPActionCreator(phone));
     };
 

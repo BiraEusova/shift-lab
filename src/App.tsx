@@ -8,10 +8,10 @@ function App() {
    const { auth } = useAppSelector(state => state.auth);
 
    return (
-       <>
+       <div className="container">
            { auth && <HelloPage/> }
            { !auth && <AuthPage/> }
-       </>
+       </div>
    )
 }
 

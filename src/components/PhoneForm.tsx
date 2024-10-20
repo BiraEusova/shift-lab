@@ -16,14 +16,18 @@ const PhoneForm = (props: {onSubmitPhone: (phone: string) => void }) => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <label htmlFor="phone-number">Номер телефона:</label>
+            <label htmlFor="phone-number">Введите номер телефона</label>
             <input
+                className={errors.phone ? "invalid-input" : ""}
                 type="tel"
                 id="phone-number"
                 onInput={onChangeValidate}
+                placeholder={"89618878701"}
                 {...register('phone', { required: true })}
             />
-            {errors.phone?.type === 'required' && <div>Поле является обязательным</div>}
+            <div className={"input-error-message"}>
+                {errors.phone?.type === 'required' && <p>Поле является обязательным</p>}
+            </div>
             <button type="submit">Получить код</button>
         </form>
     );

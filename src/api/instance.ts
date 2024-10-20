@@ -7,7 +7,6 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use(config => {
-    //TODO: надо чтобы этот токен как то в локал сторедже оказался
     //TODO: а ключ выносится в константы?
     const token = localStorage.getItem('token');
 
